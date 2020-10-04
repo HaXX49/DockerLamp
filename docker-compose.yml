@@ -1,0 +1,40 @@
+version: "3.8"
+services:
+    php-httpd:
+        build:
+            context: ./webserver
+        ports:
+            - "4444:80"
+        volumes:
+            - ./WebFiles:/var/www/localhost/htdocs
+        networks:
+            - backend
+
+    mariadb:
+        image: mariadb:10.5.2
+        volumes:
+            - mariadb-volume:/var/lib/mysql
+        environment:
+            TZ: "Europe/Rome"
+            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+            MYSQL_ROOT_PASSWORD: "N3tw0rk!"
+            MYSQL_USER: 'testuser'
+            MYSQL_PASSWORD: 'testpassword'
+            MYSQL_DATABASE: 'testdb'
+        networks:
+            - backend
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        #links:
+        #    - 'mariadb:db'
+        ports:
+            - 8081:80
+        networks:
+            - backend
+volumes:
+    mariadb-volume:
+    wordpress:
+    dvwa:
+networks:
+    backend:
