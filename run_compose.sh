@@ -1,5 +1,5 @@
 #!/bin/sh
-# LAMP et Wordpress
+# Pile LAMP - Docker Compose
 # Yann Debly 2020
 
 echo "Starting services ..."

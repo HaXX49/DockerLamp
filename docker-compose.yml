@@ -2,10 +2,12 @@ version: "3.8"
 services:
     php-httpd:
         build:
+            #Permet de localiser le dockerfile à build, celui-ci n'étant pas sur le Hub
             context: ./webserver
         ports:
             - "4444:80"
         volumes:
+            #Simple bind pour monter un répertoire local sur le serveur web
             - ./WebFiles:/var/www/localhost/htdocs
         networks:
             - backend
@@ -13,8 +15,10 @@ services:
     mariadb:
         image: mariadb:10.5.2
         volumes:
+            #On a ici un volume dédié afin d'assurer la persistance de la DB après extinction du conteneur
             - mariadb-volume:/var/lib/mysql
         environment:
+            #Variables d'environnement pour la BDD
             TZ: "Europe/Rome"
             MYSQL_ALLOW_EMPTY_PASSWORD: "no"
             MYSQL_ROOT_PASSWORD: "N3tw0rk!"
@@ -26,15 +30,11 @@ services:
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        #links:
-        #    - 'mariadb:db'
         ports:
             - 8081:80
         networks:
             - backend
 volumes:
     mariadb-volume:
-    wordpress:
-    dvwa:
 networks:
     backend:
