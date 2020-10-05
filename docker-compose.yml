@@ -2,13 +2,13 @@ version: "3.8"
 services:
     php-httpd:
         build:
-            #Permet de localiser le dockerfile à build, celui-ci n'étant pas sur le Hub
             context: ./webserver
+            #Permet de localiser le dockerfile à build, celui-ci n'étant pas sur le Hub
         ports:
             - "4444:80"
         volumes:
             #Simple bind pour monter un répertoire local sur le serveur web
-            - ./WebFiles:/var/www/localhost/htdocs
+            - website:/var/www/localhost/htdocs
         networks:
             - backend
 
@@ -18,13 +18,13 @@ services:
             #On a ici un volume dédié afin d'assurer la persistance de la DB après extinction du conteneur
             - mariadb-volume:/var/lib/mysql
         environment:
-            #Variables d'environnement pour la BDD
             TZ: "Europe/Rome"
-            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
-            MYSQL_ROOT_PASSWORD: "N3tw0rk!"
-            MYSQL_USER: 'testuser'
-            MYSQL_PASSWORD: 'testpassword'
-            MYSQL_DATABASE: 'testdb'
+            #Le reste est importé depuis un fichier pour respecter l'extériorisation de la config
+            MYSQL_ALLOW_EMPTY_PASSWORD: ${MYSQL_ALLOW_EMPTY_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
         networks:
             - backend
 
@@ -35,6 +35,7 @@ services:
         networks:
             - backend
 volumes:
+    website:
     mariadb-volume:
 networks:
     backend:

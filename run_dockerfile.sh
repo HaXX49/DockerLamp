@@ -7,4 +7,4 @@
 
 docker run -d --network backend -e MYSQL_ROOT_PASSWORD=N3tw0rk! -e MYSQL_DATABASE=testdb -e TZ="Europe/Rome" -e MYSQL_ALLOW_EMPTY_PASSWORD=no -e MYSQL_USER=testuser -e MYSQL_PASSWORD=testpassword --name mariadb -v $PWD/database:/var/lib/mysql -d mariadb:10.5.5
 
-docker run -d --network backend -p 4444:80 -v $PWD/WebFiles:/var/www/localhost/htdocs --name webserver_cont webserver
+docker run -d --network backend -p 4444:80 -v website:/var/www/localhost/htdocs --name webserver_cont webserver
